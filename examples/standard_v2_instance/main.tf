@@ -28,10 +28,10 @@ module "resource_names" {
 }
 
 module "resource_group" {
-  source = "git::https://github.com/launchbynttdata/tf-azurerm-module_primitive-resource_group.git?ref=1.0.0"
+  source = "git::https://github.com/launchbynttdata/tf-azurerm-module_primitive-resource_group.git?ref=1.1.0"
 
   location = var.region
-  name     = module.resource_names["resource_group"].standard
+  name     = module.resource_names["resource_group"].minimal_random_suffix
 
   tags = merge(var.tags, { resource_name = module.resource_names["resource_group"].standard })
 }
@@ -59,7 +59,7 @@ module "vnet" {
   source = "git::https://github.com/launchbynttdata/tf-azurerm-module_primitive-virtual_network.git?ref=2.0.0"
 
   resource_group_name                                  = module.resource_group.name
-  vnet_name                                            = module.resource_names["vnet"].standard
+  vnet_name                                            = module.resource_names["vnet"].minimal_random_suffix
   vnet_location                                        = var.region
   address_space                                        = var.address_space
   subnet_names                                         = var.subnet_names
@@ -83,7 +83,7 @@ module "vnet" {
 module "application_gateway" {
   source = "../.."
 
-  name                                   = module.resource_names["app_gateway"].standard
+  name                                   = module.resource_names["app_gateway"].minimal_random_suffix
   location                               = var.region
   resource_group_name                    = module.resource_group.name
   frontend_ip_configuration_name         = var.frontend_ip_configuration_name

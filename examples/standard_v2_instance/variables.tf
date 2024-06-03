@@ -72,10 +72,6 @@ variable "resource_names_map" {
       name       = "rg"
       max_length = 60
     }
-    nsg = {
-      name       = "nsg"
-      max_length = 60
-    }
     vnet = {
       name       = "vnet"
       max_length = 24
@@ -87,19 +83,16 @@ variable "resource_names_map" {
 variable "address_space" {
   description = "Address space of the Vnet"
   type        = list(string)
-  default     = ["10.60.0.0/16"]
 }
 
 variable "subnet_names" {
   description = "Name of the subnets to be created"
   type        = list(string)
-  default     = ["app-gtw-subnet"]
 }
 
 variable "subnet_prefixes" {
   description = "The CIDR blocks of the subnets whose names are specified in `subnet_names`"
   type        = list(string)
-  default     = ["10.60.0.0/24"]
 }
 
 # Application Gateway related variables
@@ -109,7 +102,6 @@ variable "sku" {
   description = <<EOT
     The SKU of the Application Gateway. Possible values are: Standard_v2 or WAF_v2.
   EOT
-  default     = "Standard_v2"
 }
 
 variable "sku_capacity" {
@@ -143,7 +135,6 @@ variable "appgw_private" {
 variable "private_ip_address" {
   type        = string
   description = "The private IP address of the Application Gateway. Must be within the range of the subnet"
-  default     = "10.60.0.4"
 }
 
 variable "frontend_private_ip_configuration_name" {

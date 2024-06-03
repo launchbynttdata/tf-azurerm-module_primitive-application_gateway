@@ -1,3 +1,9 @@
+address_space      = ["10.60.0.0/16"]
+subnet_names       = ["app-gtw-subnet"]
+subnet_prefixes    = ["10.60.0.0/24"]
+sku                = "Standard_v2"
+private_ip_address = "10.60.0.4"
+
 frontend_port_settings = [
   {
     name = "port_80"
