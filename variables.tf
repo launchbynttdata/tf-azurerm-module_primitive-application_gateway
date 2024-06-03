@@ -400,10 +400,9 @@ variable "disable_waf_rules_for_dev_portal" {
 ### NETWORKING
 
 variable "subnet_id" {
-  description = "Custom subnet ID for attaching the Application Gateway. Used only when the variable `create_subnet = false`."
+  description = "Subnet ID for attaching the Application Gateway. This is a mandatory field. All App Gateway must be assigned a subnet."
   type        = string
   nullable    = false
-  default     = ""
 }
 
 ### IDENTITY
@@ -423,7 +422,10 @@ variable "appgw_private" {
 }
 
 variable "appgw_private_ip" {
-  description = "Private IP for Application Gateway. Used when variable `appgw_private` is set to `true`."
+  description = <<EOT
+    Static Private IP for Application Gateway. Must be within the range of the subnet used for Application gateway. Mandatory when
+    variable `appgw_private` is set to `true`.
+  EOT
   type        = string
   default     = null
 }
