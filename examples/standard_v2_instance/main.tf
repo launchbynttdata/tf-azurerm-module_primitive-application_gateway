@@ -11,7 +11,8 @@
 // limitations under the License.
 
 module "resource_names" {
-  source = "git::https://github.com/launchbynttdata/tf-launch-module_library-resource_name.git?ref=1.0.1"
+  source  = "terraform.registry.launch.nttdata.com/module_library/resource_name/launch"
+  version = "~> 1.0"
 
   for_each = var.resource_names_map
 
@@ -28,7 +29,8 @@ module "resource_names" {
 }
 
 module "resource_group" {
-  source = "git::https://github.com/launchbynttdata/tf-azurerm-module_primitive-resource_group.git?ref=1.1.0"
+  source  = "terraform.registry.launch.nttdata.com/module_primitive/resource_group/azurerm"
+  version = "~> 1.1"
 
   location = var.region
   name     = module.resource_names["resource_group"].minimal_random_suffix
@@ -37,7 +39,8 @@ module "resource_group" {
 }
 
 module "public_ip" {
-  source = "git::https://github.com/launchbynttdata/tf-azurerm-module_primitive-public_ip?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_primitive/public_ip/azurerm"
+  version = "~> 1.0"
 
   name                = module.resource_names["public_ip"].standard
   resource_group_name = module.resource_group.name
@@ -56,7 +59,8 @@ module "public_ip" {
 }
 
 module "vnet" {
-  source = "git::https://github.com/launchbynttdata/tf-azurerm-module_primitive-virtual_network.git?ref=2.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_primitive/virtual_network/azurerm"
+  version = "~> 2.0"
 
   resource_group_name                                  = module.resource_group.name
   vnet_name                                            = module.resource_names["vnet"].minimal_random_suffix
