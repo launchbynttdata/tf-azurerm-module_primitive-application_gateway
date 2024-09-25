@@ -1,3 +1,7 @@
+output "resource_group_name" {
+  value = module.resource_group.name
+}
+
 output "app_gateway_id" {
   value = module.application_gateway.id
 }

@@ -15,7 +15,7 @@ At this moment, `private only` Application Gateway is in `Preview mode`.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | <= 1.5.5 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.77 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.6 |
 
@@ -78,6 +78,7 @@ No resources.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | n/a |
 | <a name="output_app_gateway_id"></a> [app\_gateway\_id](#output\_app\_gateway\_id) | n/a |
 | <a name="output_app_gateway_name"></a> [app\_gateway\_name](#output\_app\_gateway\_name) | n/a |
 | <a name="output_frontend_ip_configuration"></a> [frontend\_ip\_configuration](#output\_frontend\_ip\_configuration) | n/a |
