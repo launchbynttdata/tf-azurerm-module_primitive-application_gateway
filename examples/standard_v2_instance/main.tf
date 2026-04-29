@@ -113,6 +113,7 @@ module "application_gateway" {
   autoscaling_parameters                 = var.autoscaling_parameters
   ssl_certificates_configs               = var.ssl_certificates_configs
   authentication_certificates_configs    = var.authentication_certificates_configs
+  ssl_policy                             = var.ssl_policy
 
   tags = merge(var.tags, {
     resource_name = module.resource_names["app_gateway"].standard

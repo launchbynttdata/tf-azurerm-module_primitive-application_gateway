@@ -243,6 +243,18 @@ variable "appgw_probes" {
   default = []
 }
 
+variable "ssl_policy" {
+  description = "Application Gateway SSL configuration. The list of available policies can be found here: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_gateway#disabled_protocols"
+  type = object({
+    disabled_protocols   = optional(list(string), [])
+    policy_type          = optional(string, "Predefined")
+    policy_name          = optional(string, "AppGwSslPolicy20220101")
+    cipher_suites        = optional(list(string), [])
+    min_protocol_version = optional(string, "TLSv1_2")
+  })
+  default = null
+}
+
 variable "ssl_certificates_configs" {
   description = <<EOD
 List of objects with SSL certificates configurations.
