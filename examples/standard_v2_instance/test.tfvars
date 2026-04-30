@@ -55,3 +55,8 @@ appgw_backend_http_settings = [
 frontend_ip_configuration_name         = "standard-frontend-ip"
 frontend_private_ip_configuration_name = "standard-private-ip"
 gateway_ip_configuration_name          = "app-gateway-ip"
+
+ssl_policy = {
+  policy_type = "Predefined"
+  policy_name = "AppGwSslPolicy20220101"
+}
