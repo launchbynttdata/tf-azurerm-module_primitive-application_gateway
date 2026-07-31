@@ -13,6 +13,14 @@ import (
 )
 
 func TestApplicationGatewayComplete(t *testing.T, ctx types.TestContext) {
+	testApplicationGatewayComplete(t, ctx)
+}
+
+func TestComposableApplicationGatewayComplete(t *testing.T, ctx types.TestContext) {
+	testApplicationGatewayComplete(t, ctx)
+}
+
+func testApplicationGatewayComplete(t *testing.T, ctx types.TestContext) {
 	subscriptionId := os.Getenv("ARM_SUBSCRIPTION_ID")
 	if len(subscriptionId) == 0 {
 		t.Fatal("ARM_SUBSCRIPTION_ID environment variable is not set")

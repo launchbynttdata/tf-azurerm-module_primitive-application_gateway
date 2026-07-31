@@ -21,7 +21,8 @@ import (
 )
 
 const (
-	testConfigsExamplesFolderDefault = "../../examples"
+	// Readonly tests explicitly target the standard_v2_instance example.
+	testConfigsExamplesFolderDefault = "../../examples/standard_v2_instance"
 	infraTFVarFileNameDefault        = "test.tfvars"
 )
 
@@ -33,5 +34,5 @@ func TestApplicationGatewayModule(t *testing.T) {
 		SetTestConfigFileName(infraTFVarFileNameDefault).
 		Build()
 
-	lib.RunNonDestructiveTest(t, *ctx, testimpl.TestApplicationGatewayComplete)
+	lib.RunNonDestructiveTest(t, *ctx, testimpl.TestComposableApplicationGatewayComplete)
 }
