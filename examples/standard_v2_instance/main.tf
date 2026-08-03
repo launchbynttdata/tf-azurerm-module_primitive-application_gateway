@@ -104,8 +104,12 @@ module "application_gateway" {
   appgw_private_ip                       = var.private_ip_address
   enable_http2                           = var.enable_http2
   autoscaling_parameters                 = var.autoscaling_parameters
-  ssl_certificates_configs               = var.ssl_certificates_configs
-  authentication_certificates_configs    = var.authentication_certificates_configs
+  ssl_policy = {
+    policy_type = "Predefined"
+    policy_name = "AppGwSslPolicy20220101S"
+  }
+  ssl_certificates_configs            = var.ssl_certificates_configs
+  authentication_certificates_configs = var.authentication_certificates_configs
 
   tags = merge(var.tags, {
     resource_name = module.resource_names["app_gateway"].standard
