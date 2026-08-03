@@ -46,7 +46,7 @@ module "public_ip" {
   resource_group_name = module.resource_group.name
   location            = var.region
   allocation_method   = "Static"
-  domain_name_label   = module.resource_names["public_ip"].standard
+  domain_name_label   = module.resource_names["public_ip"].dns_compliant_minimal_random_suffix
   sku                 = "Standard"
   sku_tier            = "Regional"
   zones               = var.zones
