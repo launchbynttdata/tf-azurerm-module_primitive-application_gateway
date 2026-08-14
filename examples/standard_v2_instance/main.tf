@@ -12,7 +12,7 @@
 
 module "resource_names" {
   source  = "terraform.registry.launch.nttdata.com/module_library/resource_name/launch"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
   for_each = var.resource_names_map
 
@@ -21,8 +21,8 @@ module "resource_names" {
   region                  = join("", split("-", var.region))
   class_env               = var.environment
   cloud_resource_type     = each.value.name
-  instance_env            = var.environment_number
-  instance_resource       = var.resource_number
+  instance_env            = tonumber(var.environment_number)
+  instance_resource       = tonumber(var.resource_number)
   maximum_length          = each.value.max_length
   use_azure_region_abbr   = true
 
@@ -46,7 +46,7 @@ module "public_ip" {
   resource_group_name = module.resource_group.name
   location            = var.region
   allocation_method   = "Static"
-  domain_name_label   = module.resource_names["public_ip"].standard
+  domain_name_label   = module.resource_names["public_ip"].dns_compliant_minimal_random_suffix
   sku                 = "Standard"
   sku_tier            = "Regional"
   zones               = var.zones
@@ -60,25 +60,18 @@ module "public_ip" {
 
 module "vnet" {
   source  = "terraform.registry.launch.nttdata.com/module_primitive/virtual_network/azurerm"
-  version = "~> 2.0"
+  version = "~> 3.2"
 
-  resource_group_name                                  = module.resource_group.name
-  vnet_name                                            = module.resource_names["vnet"].minimal_random_suffix
-  vnet_location                                        = var.region
-  address_space                                        = var.address_space
-  subnet_names                                         = var.subnet_names
-  subnet_prefixes                                      = var.subnet_prefixes
-  bgp_community                                        = null
-  ddos_protection_plan                                 = null
-  dns_servers                                          = []
-  nsg_ids                                              = {}
-  route_tables_ids                                     = {}
-  subnet_delegation                                    = {}
-  subnet_private_endpoint_network_policies_enabled     = {}
-  subnet_private_link_service_network_policies_enabled = {}
-  subnet_service_endpoints                             = {}
-  tags                                                 = merge(var.tags, { resource_name = module.resource_names["vnet"].standard })
-  use_for_each                                         = true
+  resource_group_name = module.resource_group.name
+  vnet_name           = module.resource_names["vnet"].minimal_random_suffix
+  vnet_location       = var.region
+  address_space       = var.address_space
+  subnets = {
+    for index, name in var.subnet_names : name => {
+      prefix = var.subnet_prefixes[index]
+    }
+  }
+  tags = merge(var.tags, { resource_name = module.resource_names["vnet"].standard })
 
 
   depends_on = [module.resource_group]
@@ -105,14 +98,18 @@ module "application_gateway" {
   appgw_routings                         = var.appgw_routings
   appgw_probes                           = var.appgw_probes
   appgw_backend_http_settings            = var.appgw_backend_http_settings
-  subnet_id                              = module.vnet.vnet_subnets[0]
+  subnet_id                              = module.vnet.subnet_name_id_map[var.subnet_names[0]]
   user_assigned_identity_id              = var.user_assigned_identity_id
   appgw_private                          = var.appgw_private
   appgw_private_ip                       = var.private_ip_address
   enable_http2                           = var.enable_http2
   autoscaling_parameters                 = var.autoscaling_parameters
-  ssl_certificates_configs               = var.ssl_certificates_configs
-  authentication_certificates_configs    = var.authentication_certificates_configs
+  ssl_policy = {
+    policy_type = "Predefined"
+    policy_name = "AppGwSslPolicy20220101S"
+  }
+  ssl_certificates_configs            = var.ssl_certificates_configs
+  authentication_certificates_configs = var.authentication_certificates_configs
 
   tags = merge(var.tags, {
     resource_name = module.resource_names["app_gateway"].standard
