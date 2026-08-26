@@ -37,9 +37,9 @@ func testApplicationGatewayComplete(t *testing.T, ctx types.TestContext) {
 }
 
 func checkAppGatewayID(t *testing.T, ctx types.TestContext, subscriptionId string, cred *azidentity.DefaultAzureCredential) {
-	resourceGroupName := terraform.Output(t, ctx.TerratestTerraformOptions(), "resource_group_name")
-	appGatewayID := terraform.Output(t, ctx.TerratestTerraformOptions(), "app_gateway_id")
-	appGatewayName := terraform.Output(t, ctx.TerratestTerraformOptions(), "app_gateway_name")
+	resourceGroupName := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "resource_group_name")
+	appGatewayID := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "app_gateway_id")
+	appGatewayName := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "app_gateway_name")
 
 	client := NewApplicationGatewaysClient(t, subscriptionId, cred)
 
